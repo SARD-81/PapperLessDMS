@@ -97,28 +97,68 @@
 
 </pngx-page-header>
 
-<div class="row">
-  <div class="col-md-6 col-xl-4 mb-4">
+<div class="document-detail" [attr.dir]="isRTL ? 'rtl' : 'ltr'">
+  <div class="row document-detail__layout">
+    <div class="col-md-6 col-xl-4 mb-4">
+      <div class="card shadow-sm border-0 document-detail__sidebar h-100">
+        <div class="card-body p-4 d-flex flex-column gap-4">
 
-    <form [formGroup]='documentForm' (ngSubmit)="save()">
+          @if (document?.ai_summary || (document?.ai_keywords?.length ?? 0) > 0 || document?.ai_suggested_category) {
+            <section class="document-ai-analysis">
+              <header class="document-ai-analysis__header">
+                <div class="document-ai-analysis__title">
+                  <span class="document-ai-analysis__icon">
+                    <i-bs name="cpu" width="1.1em" height="1.1em"></i-bs>
+                  </span>
+                  <span i18n>AI Analysis</span>
+                </div>
+              </header>
+              <div class="document-ai-analysis__content">
+                @if (document?.ai_summary) {
+                  <div class="document-ai-analysis__section">
+                    <div class="document-ai-analysis__section-title" i18n>Summary</div>
+                    <p class="document-ai-analysis__summary">{{document.ai_summary}}</p>
+                  </div>
+                }
+                @if ((document?.ai_keywords?.length ?? 0) > 0) {
+                  <div class="document-ai-analysis__section">
+                    <div class="document-ai-analysis__section-title" i18n>Keywords</div>
+                    <div class="document-ai-analysis__keywords">
+                      @for (keyword of document.ai_keywords; track keyword) {
+                        <span class="badge rounded-pill document-ai-analysis__keyword">{{keyword}}</span>
+                      }
+                    </div>
+                  </div>
+                }
+                @if (document?.ai_suggested_category) {
+                  <div class="document-ai-analysis__section">
+                    <div class="document-ai-analysis__section-title" i18n>Suggested category</div>
+                    <span class="badge document-ai-analysis__category">{{document.ai_suggested_category}}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          }
 
-      <div class="btn-toolbar mb-1 border-bottom">
-        <div class="btn-group pb-3">
-          <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Close" (click)="close()">
-            <i-bs width="1.2em" height="1.2em" name="x"></i-bs>
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Previous" (click)="previousDoc()" [disabled]="!hasPrevious()">
-            <i-bs width="1.2em" height="1.2em" name="arrow-left"></i-bs>
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-secondary"  i18n-title title="Next" (click)="nextDoc()" [disabled]="!hasNext()">
-            <i-bs width="1.2em" height="1.2em" name="arrow-right"></i-bs>
-          </button>
-        </div>
+          <form [formGroup]='documentForm' (ngSubmit)="save()" class="document-detail__form d-flex flex-column">
 
-        <ng-container *ngTemplateOutlet="saveButtons"></ng-container>
-      </div>
+            <div class="document-detail__toolbar btn-toolbar mb-1 pb-2 border-bottom">
+              <div class="btn-group pb-3">
+                <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Close" (click)="close()">
+                  <i-bs width="1.2em" height="1.2em" name="x"></i-bs>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Previous" (click)="previousDoc()" [disabled]="!hasPrevious()">
+                  <i-bs width="1.2em" height="1.2em" name="arrow-left"></i-bs>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Next" (click)="nextDoc()" [disabled]="!hasNext()">
+                  <i-bs width="1.2em" height="1.2em" name="arrow-right"></i-bs>
+                </button>
+              </div>
 
-      <ul ngbNav #nav="ngbNav" class="nav-underline flex-nowrap flex-md-wrap overflow-auto" (navChange)="onNavChange($event)" [(activeId)]="activeNavID">
+              <ng-container *ngTemplateOutlet="saveButtons"></ng-container>
+            </div>
+
+            <ul ngbNav #nav="ngbNav" class="nav-underline flex-nowrap flex-md-wrap overflow-auto document-detail__nav" (navChange)="onNavChange($event)" [(activeId)]="activeNavID">
         <li [ngbNavItem]="DocumentDetailNavIDs.Details">
           <a ngbNavLink i18n>Details</a>
           <ng-template ngbNavContent>
@@ -348,17 +388,24 @@
             </ng-template>
           </li>
         }
-      </ul>
+            </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-3"></div>
+            <div [ngbNavOutlet]="nav" class="mt-3 document-detail__nav-content"></div>
 
-    </form>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-xl-8 mb-3 d-none d-md-block">
+      <div class="card shadow-sm border-0 document-detail__preview h-100">
+        <div class="card-body p-0 position-relative" #pdfPreview>
+          <ng-container *ngTemplateOutlet="previewContent"></ng-container>
+        </div>
+      </div>
+    </div>
+
   </div>
-
-  <div class="col-md-6 col-xl-8 mb-3 d-none d-md-block position-relative" #pdfPreview>
-    <ng-container *ngTemplateOutlet="previewContent"></ng-container>
-  </div>
-
 </div>
 
 <ng-template #saveButtons>

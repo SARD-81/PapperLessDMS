@@ -150,6 +150,12 @@ export interface Document extends ObjectWithPermissions {
 
   notes?: DocumentNote[]
 
+  ai_summary?: string
+
+  ai_keywords?: string[]
+
+  ai_suggested_category?: string
+
   __search_hit__?: SearchHit
 
   custom_fields?: CustomFieldInstance[]
