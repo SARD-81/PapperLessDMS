@@ -1,0 +1,10 @@
+<ngb-alert class="pe-3" type="primary" [dismissible]="true" (closed)="dismiss.emit(true)">
+  <h4 class="alert-heading"><ng-container i18n>استوریکس در حال اجرا میباشد</ng-container> 🎉</h4>
+  <p i18n>آماده ای برای ابارگذاری اسنادت. ویژگی های برنامه رو گردش کن و یا از تور ما استفاده کن.برای شروع تور دکمه زیر رو بزنید!</p>
+  <p i18n>برای جزییات بیشتر با تیم storex تماس بگیرید <a href="#" target="_blank">documentation</a>.</p>
+  <hr>
+  <div class="d-flex align-items-end">
+    <p class="lead fs-6 m-0"><em i18n>از اینکه جزیی از تیم  storex هستید سپاس گزاریم.</em></p>
+    <button class="btn btn-primary ms-auto flex-shrink-0" (click)="tourService.start()"><ng-container i18n>Start the tour</ng-container> &rarr;</button>
+  </div>
+</ngb-alert>
