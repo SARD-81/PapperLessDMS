@@ -12,4 +12,10 @@ export interface DocumentMetadata {
   has_archive_version?: boolean
 
   lang?: string
+
+  ai_summary?: string
+
+  ai_keywords?: string[] | string
+
+  ai_suggested_categories?: string[] | string
 }

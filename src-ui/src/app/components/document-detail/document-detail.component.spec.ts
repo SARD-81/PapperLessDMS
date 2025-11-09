@@ -924,6 +924,36 @@ describe('DocumentDetailComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('textarea.rtl'))).not.toBeNull()
   })
 
+  it('should expose AI analysis data when available on the document', () => {
+    initNormally()
+    component.document.ai_summary = 'Short overview'
+    component.document.ai_keywords = 'alpha, beta , gamma'
+    component.document.ai_suggested_categories = ['Category A', 'Category B']
+
+    expect(component.aiSummary).toEqual('Short overview')
+    expect(component.aiKeywords).toEqual(['alpha', 'beta', 'gamma'])
+    expect(component.aiSuggestedCategories).toEqual(['Category A', 'Category B'])
+    expect(component.aiAnalysisAvailable).toBeTruthy()
+  })
+
+  it('should fallback to metadata when AI analysis is not on the document', () => {
+    initNormally()
+    component.document.ai_summary = undefined
+    component.document.ai_keywords = undefined
+    component.document.ai_suggested_categories = undefined
+    component.metadata = {
+      lang: 'fa',
+      ai_summary: 'متن خلاصه',
+      ai_keywords: ['کلیدواژه ۱', 'کلیدواژه ۲'],
+      ai_suggested_categories: 'دسته ۱،دسته ۲',
+    } as any
+
+    expect(component.aiSummary).toEqual('متن خلاصه')
+    expect(component.aiKeywords).toEqual(['کلیدواژه ۱', 'کلیدواژه ۲'])
+    expect(component.aiSuggestedCategories).toEqual(['دسته ۱', 'دسته ۲'])
+    expect(component.aiAnalysisAvailable).toBeTruthy()
+  })
+
   it('should display built-in pdf viewer if not disabled', () => {
     initNormally()
     component.document.archived_file_name = 'file.pdf'

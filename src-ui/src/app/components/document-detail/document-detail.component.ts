@@ -330,8 +330,56 @@ export class DocumentDetailComponent
   get isRTL() {
     if (!this.metadata || !this.metadata.lang) return false
     else {
-      return ['ar', 'he', 'fe'].includes(this.metadata.lang)
+      return ['ar', 'he', 'fa', 'fe'].includes(this.metadata.lang)
     }
+  }
+
+  get aiSummary(): string {
+    return this.document?.ai_summary || this.metadata?.ai_summary || ''
+  }
+
+  get aiKeywords(): string[] {
+    return this.normalizeAiList(
+      this.document?.ai_keywords ?? this.metadata?.ai_keywords
+    )
+  }
+
+  get aiSuggestedCategories(): string[] {
+    return this.normalizeAiList(
+      this.document?.ai_suggested_categories ??
+        this.metadata?.ai_suggested_categories
+    )
+  }
+
+  get aiAnalysisAvailable(): boolean {
+    return !!(
+      this.aiSummary ||
+      this.aiKeywords.length ||
+      this.aiSuggestedCategories.length
+    )
+  }
+
+  private normalizeAiList(
+    value: string[] | string | null | undefined
+  ): string[] {
+    if (!value) {
+      return []
+    }
+
+    if (Array.isArray(value)) {
+      return value
+        .map((entry) => (entry ?? '').toString().trim())
+        .filter((entry) => !!entry)
+    }
+
+    if (typeof value === 'string') {
+      return value
+        .split(/[,،\n]+/)
+        .map((entry) => entry.trim())
+        .filter((entry) => !!entry)
+    }
+
+    return []
   }
 
   private mapDocToForm(doc: Document): any {

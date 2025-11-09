@@ -97,12 +97,17 @@
 
 </pngx-page-header>
 
-<div class="row">
-  <div class="col-md-6 col-xl-4 mb-4">
+<div class="row g-4 document-detail-layout">
+  <div class="col-md-6 col-xl-4 mb-4 document-detail-panel-wrapper">
 
-    <form [formGroup]='documentForm' (ngSubmit)="save()">
+    <form
+      class="document-detail-panel"
+      [class.document-detail-panel--rtl]="isRTL"
+      [attr.dir]="isRTL ? 'rtl' : 'ltr'"
+      [formGroup]="documentForm"
+      (ngSubmit)="save()">
 
-      <div class="btn-toolbar mb-1 border-bottom">
+      <div class="btn-toolbar mb-1 border-bottom document-detail-panel__toolbar">
         <div class="btn-group pb-3">
           <button type="button" class="btn btn-sm btn-outline-secondary" i18n-title title="Close" (click)="close()">
             <i-bs width="1.2em" height="1.2em" name="x"></i-bs>
@@ -118,7 +123,13 @@
         <ng-container *ngTemplateOutlet="saveButtons"></ng-container>
       </div>
 
-      <ul ngbNav #nav="ngbNav" class="nav-underline flex-nowrap flex-md-wrap overflow-auto" (navChange)="onNavChange($event)" [(activeId)]="activeNavID">
+      <div class="document-detail-panel__body">
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        class="nav-underline flex-nowrap flex-md-wrap overflow-auto document-detail-panel__nav"
+        (navChange)="onNavChange($event)"
+        [(activeId)]="activeNavID">
         <li [ngbNavItem]="DocumentDetailNavIDs.Details">
           <a ngbNavLink i18n>Details</a>
           <ng-template ngbNavContent>
@@ -134,6 +145,53 @@
               <pngx-input-select [items]="storagePaths" i18n-title title="Storage path" formControlName="storage_path" [allowNull]="true" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event, DataType.StoragePath)"
               (createNew)="createStoragePath($event)" [hideAddButton]="createDisabled(DataType.StoragePath)" [suggestions]="suggestions?.storage_paths" i18n-placeholder placeholder="Default" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.StoragePath }"></pngx-input-select>
               <pngx-input-tags formControlName="tags" [suggestions]="suggestions?.tags" [showFilter]="true" [horizontal]="true" (filterDocuments)="filterDocuments($event, DataType.Tag)" [hideAddButton]="createDisabled(DataType.Tag)" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Tag }"></pngx-input-tags>
+
+              @if (aiAnalysisAvailable) {
+                <section class="ai-analysis">
+                  <header class="ai-analysis__header">
+                    <span class="ai-analysis__badge">
+                      <i-bs name="cpu"></i-bs>
+                    </span>
+                    <div class="ai-analysis__header-copy">
+                      <h3 class="ai-analysis__title" i18n>AI Analysis</h3>
+                      <p class="ai-analysis__subtitle" i18n>Machine-assisted insights for this document.</p>
+                    </div>
+                  </header>
+                  <div class="ai-analysis__grid">
+                    @if (aiSummary) {
+                      <article class="ai-analysis__card">
+                        <div class="ai-analysis__card-icon">
+                          <i-bs name="card-text"></i-bs>
+                        </div>
+                        <h4 class="ai-analysis__card-title" i18n>Summary</h4>
+                        <p class="ai-analysis__card-content">{{aiSummary}}</p>
+                      </article>
+                    }
+                    @if (aiKeywords.length) {
+                      <article class="ai-analysis__card">
+                        <div class="ai-analysis__card-icon">
+                          <i-bs name="tags"></i-bs>
+                        </div>
+                        <h4 class="ai-analysis__card-title" i18n>Keywords</h4>
+                        <div class="ai-analysis__tags">
+                          <span class="ai-analysis__tag" *ngFor="let keyword of aiKeywords">{{keyword}}</span>
+                        </div>
+                      </article>
+                    }
+                    @if (aiSuggestedCategories.length) {
+                      <article class="ai-analysis__card">
+                        <div class="ai-analysis__card-icon">
+                          <i-bs name="diagram-3"></i-bs>
+                        </div>
+                        <h4 class="ai-analysis__card-title" i18n>Suggested categories</h4>
+                        <ul class="ai-analysis__list">
+                          <li *ngFor="let category of aiSuggestedCategories">{{category}}</li>
+                        </ul>
+                      </article>
+                    }
+                  </div>
+                </section>
+              }
               @for (fieldInstance of document?.custom_fields; track fieldInstance.field; let i = $index) {
                 <div [formGroup]="customFieldFormFields.controls[i]">
                   @switch (getCustomFieldFromInstance(fieldInstance)?.data_type) {
@@ -350,12 +408,14 @@
         }
       </ul>
 
-      <div [ngbNavOutlet]="nav" class="mt-3"></div>
+      <div [ngbNavOutlet]="nav" class="mt-3 document-detail-panel__content"></div>
+
+      </div>
 
     </form>
   </div>
 
-  <div class="col-md-6 col-xl-8 mb-3 d-none d-md-block position-relative" #pdfPreview>
+  <div class="col-md-6 col-xl-8 mb-3 d-none d-md-block position-relative document-preview-column" #pdfPreview>
     <ng-container *ngTemplateOutlet="previewContent"></ng-container>
   </div>
 

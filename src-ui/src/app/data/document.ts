@@ -159,6 +159,12 @@ export interface Document extends ObjectWithPermissions {
 
   page_count?: number
 
+  ai_summary?: string
+
+  ai_keywords?: string[] | string
+
+  ai_suggested_categories?: string[] | string
+
   // Frontend only
   __changedFields?: string[]
 }
