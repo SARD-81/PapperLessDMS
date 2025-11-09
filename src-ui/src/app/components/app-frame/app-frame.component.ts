@@ -43,6 +43,7 @@ import { SavedViewService } from 'src/app/services/rest/saved-view.service'
 import { SettingsService } from 'src/app/services/settings.service'
 import { TasksService } from 'src/app/services/tasks.service'
 import { ToastService } from 'src/app/services/toast.service'
+import { ThemeService } from 'src/app/services/theme.service'
 import { environment } from 'src/environments/environment'
 import { ProfileEditDialogComponent } from '../common/profile-edit-dialog/profile-edit-dialog.component'
 import { DocumentDetailComponent } from '../document-detail/document-detail.component'
@@ -85,6 +86,7 @@ export class AppFrameComponent
   private modalService = inject(NgbModal)
   permissionsService = inject(PermissionsService)
   private djangoMessagesService = inject(DjangoMessagesService)
+  themeService = inject(ThemeService)
 
   appRemoteVersion: AppRemoteVersion
 
@@ -108,6 +110,9 @@ export class AppFrameComponent
     }
   }
 
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
   
   ngOnInit(): void {
     if (this.settingsService.get(SETTINGS_KEYS.UPDATE_CHECKING_ENABLED)) {
