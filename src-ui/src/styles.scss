@@ -1,41 +1,134 @@
-body.dark-theme {
-  background: #181b20 !important;
-  color: #eee !important;
-}
-
+body.dark-theme,
+body.dark-theme .container-fluid,
+body.dark-theme .row,
+body.dark-theme main,
 body.dark-theme .navbar,
-body.dark-theme .sidebar {
+body.dark-theme .bg-light,
+body.dark-theme .sidebar,
+body.dark-theme .dropdown-menu,
+body.dark-theme .search-container {
   background: #23272e !important;
   color: #fafafa !important;
 }
 
-body.dark-theme .nav-link {
-  color: #ededed !important;
+body.dark-theme .navbar {
+  background: #22252c !important;
+  border-bottom: 1px solid #262a32 !important;
+  color: #fafafa !important;
 }
 
-body.dark-theme .nav-link.active {
-  background: #353d47 !important;
+body.dark-theme .navbar-brand,
+body.dark-theme .navbar .nav-link,
+body.dark-theme .sidebar .sidebar-heading,
+body.dark-theme .sidebar .nav-link,
+body.dark-theme .form-control,
+body.dark-theme .dropdown-menu,
+body.dark-theme .dropdown-item,
+body.dark-theme .sidebar .byline,
+body.dark-theme .sidebar .title {
+  color: #e7ffea !important;
+}
+
+body.dark-theme .sidebar {
+  border-left: 1px solid #263031 !important;
+}
+
+body.dark-theme .sidebar .nav-link.active,
+body.dark-theme .nav-link.active,
+body.dark-theme .dropdown-item.active {
+  color: #fff !important;
+  background: #395646 !important;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 1px 10px 0 #0001;
+}
+
+body.dark-theme .sidebar .nav-link:hover,
+body.dark-theme .dropdown-item:hover {
+  background-color: #364845 !important;
   color: #fff !important;
 }
 
-body.dark-theme .dropdown-menu {
-  background: #23272e !important;
+body.dark-theme .btn,
+body.dark-theme .btn-primary,
+body.dark-theme .btn-outline-primary {
+  background-color: #355b3e !important;
+  color: #ececec !important;
+  border-color: #33502b !important;
+}
+body.dark-theme .btn-outline-primary:focus,
+body.dark-theme .btn-outline-primary:active {
+  background-color: #537e52 !important;
+  color: #fff !important;
+}
+body.dark-theme .form-control,
+body.dark-theme input,
+body.dark-theme textarea,
+body.dark-theme .ng-select .ng-select-container {
+  background: #293032 !important;
   color: #fafafa !important;
-  box-shadow: 0 8px 24px rgba(15, 20, 25, 0.27) !important;
+  border-color: #394245 !important;
+}
+body.dark-theme ::placeholder {
+  color: #a9b1bb;
 }
 
 body.dark-theme .theme-toggle-btn {
   background: #2c5530aa !important;
   color: #ffda58 !important;
-}
-
-body.dark-theme .sidebar-heading,
-body.dark-theme .title, 
-body.dark-theme .byline {
-  color: #c0e5cc !important;
+  border: 1px solid #37635240;
+  transition: box-shadow 0.3s, background 0.3s, color 0.3s;
 }
 
 body.dark-theme .badge {
   background: #2c5530 !important;
   color: #fff !important;
+  border: none !important;
+}
+
+body.dark-theme .dropdown-menu {
+  background: #23272e !important;
+  color: #fafafa !important;
+  border: 1px solid #323940 !important;
+  box-shadow: 0 8px 24px rgba(15, 20, 25, 0.25) !important;
+}
+
+body.dark-theme .dropdown-divider {
+  border-color: #31353a !important;
+}
+
+body.dark-theme .sidebar .sidebar-heading {
+  color: #c0e5cc !important;
+}
+
+body.dark-theme .alert,
+body.dark-theme .toast {
+  background: #23272e !important;
+  color: #fafafa !important;
+  border-color: #30373d !important;
+}
+
+body.dark-theme svg.logo .leaf {
+  fill: #e5ffcc !important;
+}
+body.dark-theme svg.logo .text {
+  fill: #fafafa !important;
+}
+
+body.dark-theme .me-3,
+body.dark-theme .ms-3,
+body.dark-theme .ms-2,
+body.dark-theme .me-2,
+body.dark-theme .me-1px {
+  color: #d1ecd1 !important;
+}
+
+body.dark-theme .list-group-item {
+  background: #2a3532 !important;
+  color: #eee !important;
+  border-color: #3c4845 !important;
+}
+body.dark-theme .table {
+  background: #2d3138 !important;
+  color: #ececec !important;
 }
